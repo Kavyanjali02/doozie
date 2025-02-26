@@ -1,70 +1,62 @@
 <?php
-//connect to db
 
-//echo $mysqli->host_info . "\n";
+
+// echo $mysqli->host_info . "\n";
+
 $mysqli = new mysqli("127.0.0.1", "root", "", "myform", 3306);
-//echo $mysqli->host_info . "\n";
-
-//$mysqli->query("CREATE TABLE feedtable(id INT)");
-
-//if the request method is post->store the data in the db using sql query
+//$mysqli->query("CREATE TABLE test(id INT)");
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-  $name = $_POST['name'];
-  $email = $_POST['email'];
-  $feedback = $_POST['feedback'];
-
-$query="INSERT INTO `feedtable` (`name`, `email`, `feedback`) VALUES ('$name', '$email', '$feedback')";
-if ($mysqli->query($query) === TRUE) {
-  echo "<div class='alert alert-success text-center' role='alert'>Feedback submitted successfully!</div>";
-  echo "<script>setTimeout(() => { window.location.href = 'index.php'; }, 2000);</script>";
-} else {
-  echo "<div class='alert alert-danger text-center' role='alert'>Error: " . htmlspecialchars($mysqli->error) . "</div>";
-}
-
-
-
-}
-
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $insname=$_POST['insname'];
+    $feedback = $_POST['feedback'];
+  
+  $query="INSERT INTO `feedbacktable` (`name`, `email`, `insname`, `feedback`) VALUES ('$name', '$email','$insname', '$feedback')";
+  if ($mysqli->query($query) === TRUE) {
+    echo "<div class='alert alert-success text-center' role='alert'>Feedback submitted successfully!</div>";
+    echo "<script>setTimeout(() => { window.location.href = 'index.php'; }, 2000);</script>";
+  } else {
+    echo "<div class='alert alert-danger text-center' role='alert'>Error: " . htmlspecialchars($mysqli->error) . "</div>";
+  }}
 ?>
-<!doctype html>
+
+
+
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Feedback Form</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  </head>
-  <body>
-    <br>
+    <title>Compact Feedback Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 320px; /* Limits width for compact form */
+            margin-top: 40px;
+        }
+        .form-control, .form-select, .btn {
+            font-size: 14px; /* Smaller input text */
+            padding: 5px; /* Less padding */
+        }
+        textarea {
+            height: 50px; /* Reduce height of feedback box */
+        }
+    </style>
+</head>
+<body>
 
-  <h1 class="text-center ">Student Feedback Form :</h1>
-  <br>
-    
-    <div class="container d-flex justify-content-center align-items-center ">
-    <div class="col-md-6 p-3 shadow-lg rounded bg-light">
-
-    <form action="/myforms/" method="post">
-    <div class="mb-3">
-    <label for="name" class="form-label">Name</label>
-    <input type="text" name="name" class="form-control" id="name" aria-describedby="name">
-    
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-  </div>
-  
-  
-
-        <div class="mb-3">
-            <label for="feedback" class="form-label">Feedback</label>
-            <textarea class="form-control" name="feedback" id="feedback" rows="4" placeholder="Write your feedback here..."></textarea>
-        </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-<div>
+<div class="container">
+    <h4 class="text-center mb-3">Feedback</h4>
+    <form action="/myform/" method="post">
+        <input id="name" name="name" type="text" class="form-control mb-2" placeholder="Your Name">
+        <input id="email" name="email" type="email" class="form-control mb-2" placeholder="Your Email" required>
+        <input id="insname" name="insname" type="text" class="form-control mb-2" placeholder="Instructor Name">
+        <textarea id="feedback" name="feedback" class="form-control mb-2" placeholder="Your Feedback"></textarea>
+        <button type="submit" class="btn btn-primary w-100">Submit</button>
+    </form>
 </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  </body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
 </html>
